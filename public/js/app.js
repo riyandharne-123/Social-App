@@ -2212,6 +2212,7 @@ __webpack_require__.r(__webpack_exports__);
           appendToast: true
         });
       });
+      return false;
     }
   }
 });
@@ -2548,6 +2549,7 @@ __webpack_require__.r(__webpack_exports__);
       })["catch"](function (err) {
         console.dir(err.response.data);
       });
+      return false;
     }
   }
 });
