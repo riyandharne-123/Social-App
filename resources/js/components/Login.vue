@@ -96,6 +96,7 @@
           appendToast: true
         })
                  });
+                 return false; 
             }
     },
   }
