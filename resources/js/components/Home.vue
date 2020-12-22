@@ -49,7 +49,7 @@
         <p v-html="post.post_desc"></p>
         <b-row>
          <b-col>
-         <b-badge v-for="tag in JSON.parse(post.post_tags)" :key="tag" style="margin:2px;">
+         <b-badge variant="primary" v-for="tag in JSON.parse(post.post_tags)" :key="tag">
         <h6>{{tag}}</h6>
          </b-badge>
          </b-col>
