@@ -1,7 +1,7 @@
 <template>
 <b-container fluid>
   <b-row style="padding-top:3%;">
-    <b-col cols="12" align="center" >
+    <b-col align="center" >
         <b-card
         :title="user_name"
         tag="article"
@@ -23,24 +23,21 @@
          </b-row>
         </b-card>
         </b-col>
-        </b-row>
-        <br>
-        <b-row>
-         <div v-for="post in user_posts" :key="post.id">
-         <b-col >
+
+         <div>
+         <b-col v-for="post in user_posts" :key="post.id">
         <b-card
           :img-src="post.post_image"
           img-alt="Image"
           img-top
           tag="article"
-          style="max-width: 20rem;"
           class="mb-2"
         >
           <b-card-text>
            <p v-html="post.post_desc"></p>
           </b-card-text>
 
-          <b-button variant="danger" @click="delete_post(post.id)">Delete Post</b-button>
+          <b-button variant="danger" @click="delete_post(post.id)"><b-icon-trash /></b-button>
         </b-card>      
         </b-col>
       </div>

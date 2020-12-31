@@ -12,7 +12,7 @@
     class="mb-2"
   >
     <b-card-text>
-      <b-form @reset="onReset" @submit="login" v-if="show">
+      <b-form @reset="onReset" v-on:submit.prevent="login" v-if="show">
       <b-form-group
         id="input-group-1"
         label="Email address:"
@@ -88,13 +88,13 @@
                 err => console.warn(err)
               );
               })
-              .catch(err =>{
-        this.loading = false;
-        this.$bvToast.toast(`Wrong Details`, {
-          title: `${err}`,
-          autoHideDelay: 3000,
-          appendToast: true
-        })
+             .catch(err =>{
+                this.loading = false;
+                this.$bvToast.toast(`Wrong Details`, {
+                  title: `${err}`,
+                  autoHideDelay: 3000,
+                  appendToast: true
+                })
                  });
                  return false; 
             }

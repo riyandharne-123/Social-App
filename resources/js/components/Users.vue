@@ -16,7 +16,10 @@
     <b-list-group>
       <b-list-group-item class="d-flex align-items-center" v-for="user in filterUsersByCategory" :key="user.id">
         <b-avatar variant="light" :src="user.profile_image" class="mr-3"></b-avatar>
-        <span class="mr-auto"><strong>{{user.name}}</strong></span>
+        <span class="mr-auto"><strong>{{user.name}}</strong>
+          <router-link :to='"/app/user/"+user.id'>
+          View Profile
+          </router-link></span>
         <!--v-if="following_users.indexOf(`${user.id}`) !== -1"-->
           <b-col lg="4" class="pb-2" v-if="following_users.indexOf(`${user.id}`) !== -1">
            <b-button variant="primary" @click="unfollowing(user.email,user.name)">Unfollow <b-icon-person-x /></b-button>

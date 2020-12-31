@@ -8,6 +8,7 @@ import Main from './components/Main'
 import UserProfile from './components/UserProfile'
 import Home from './components/Home'
 import Users from './components/Users'
+import User from './components/User'
 import NewPost from './components/NewPost'
 import NotFound from './components/NotFound'
 
@@ -111,6 +112,22 @@ const routes = [
         path: 'users',
         component: Users,
         name:'Users',
+        beforeEnter: (to,from,next) => {
+          axios.get('/api/verify_user')
+          .then(res => {
+            if(res.data.api_token == localStorage.getItem('token'))
+            {
+              next()
+            }
+          })
+          .catch(err => 
+            next('/login'))
+          },
+      },
+      {
+        path: 'user/:id',
+        component: User,
+        name:'User',
         beforeEnter: (to,from,next) => {
           axios.get('/api/verify_user')
           .then(res => {

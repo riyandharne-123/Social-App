@@ -42,6 +42,9 @@
         <b-avatar class="mr-3" variant="light" :src="post.profile_image"></b-avatar>
         <span class="mr-auto">
         <h5>{{post.name}}</h5>
+      <router-link :to='"/app/user/"+post.acc_user_id'>
+      View Profile
+      </router-link>
         {{post.created_at}}
         </span>
       </div>
@@ -49,8 +52,8 @@
         <p v-html="post.post_desc"></p>
         <b-row>
          <b-col>
-         <b-badge variant="primary" v-for="tag in JSON.parse(post.post_tags)" :key="tag">
-        <h6>{{tag}}</h6>
+         <b-badge style="margin:2px;" variant="dark" v-for="tag in JSON.parse(post.post_tags)" :key="tag">
+          <a style="font-size:medium;">{{tag}}</a>
          </b-badge>
          </b-col>
         </b-row>
@@ -73,7 +76,6 @@
 
         </b-card-text>
       </b-card>
-    </div>
     <br>
     </b-col>
    </b-row>
@@ -87,40 +89,26 @@
    data()
    {
     return{
-     posts:this.$store.state.user.posts,
-     user_id:this.$store.state.user.data.id,
+     posts:[],
+     user_id:null,
      loading: false,
-     loadingTime: 0,
-     maxLoadingTime: 1,
     }
    },
-       watch: {
-      loading(newVal, oldValue) {
-        if (newVal !== oldValue) {
-          this.clearLoadingTimeInterval()
-
-          if (newVal) {
-            this.$_loadingTimeInterval = setInterval(() => {
-              this.loadingTime++
-            }, 1000)
-          }
-        }
-      },
-      loadingTime(newVal, oldValue) {
-        if (newVal !== oldValue) {
-          if (newVal === this.maxLoadingTime) {
-            this.loading = false
-          }
-        }
-      }
-    },
    created:function(){
-      this.$_loadingTimeInterval = null
+    axios.get('/api/logged_user')
+    .then(res =>{
+      this.user_id = res.data.id;
+    })
+    .catch(err => {
+     console.log(err)
+    })
+    this.loading = true
      //fetching all posts
     axios.get('/api/posts')
     .then(res =>{
       this.$store.commit("changeUserPosts", res.data.users);
       this.posts = res.data.posts;
+      this.loading = false
     })
     .catch(err => {
      console.log(err)

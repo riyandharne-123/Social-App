@@ -14,7 +14,7 @@
     <b-card-text>
      <b-row>
       <b-col>
-      <b-form @reset="onReset" @submit="register" v-if="show">
+      <b-form @reset="onReset" v-on:submit.prevent="register" v-if="show">
       
       <b-form-group label="Your Name:" description="Nice to meet you!">
         <b-form-input
