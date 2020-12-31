@@ -12,9 +12,9 @@ Route::group(['middleware' => ['auth:api'], 'namespace' => 'Api'],function(){
     Route::get('/user','UserController@get_current_user');
     Route::resource('users','UserController');
     Route::resource('following','FollowingController');
-    Route::post('/unfollow','FollowingController@delete');
     Route::resource('posts','PostController');
     Route::resource('likes','LikeController');
-    Route::post('/removelike','LikeController@delete');
     Route::resource('user_posts','UserPostController');
+    Route::post('removelike','LikeController@delete');
+    Route::post('unfollow','FollowingController@delete'); 
 });
