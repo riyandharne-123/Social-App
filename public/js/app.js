@@ -2887,7 +2887,7 @@ __webpack_require__.r(__webpack_exports__);
     unfollowing: function unfollowing(user_email, user_name) {
       var _this3 = this;
 
-      axios.post("/api/unfollow/", {
+      axios.post("/api/unfollow", {
         user_id: this.user_id,
         email: user_email,
         name: user_name

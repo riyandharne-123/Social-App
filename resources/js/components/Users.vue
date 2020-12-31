@@ -94,7 +94,7 @@ export default {
          })
        },
        unfollowing(user_email,user_name){
-           axios.post(`/api/unfollow/`,{
+           axios.post(`/api/unfollow`,{
            user_id:this.user_id,
            email: user_email,
            name:user_name,
