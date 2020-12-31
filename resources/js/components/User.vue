@@ -2,6 +2,7 @@
 <b-container fluid>
   <b-row style="padding-top:4%;">
    <b-col align="center">
+    <b-spinner variant="primary" label="Spinning" v-if="user_loading"></b-spinner>
     <div class="mt-4">
     <b-card no-body class="overflow-hidden" style="max-width: 540px;">
     <b-row no-gutters>
@@ -31,12 +32,15 @@ export default {
     return{
      user_id:this.$route.params.id,
      user_data:null,
+     user_loading:false,
     }
   },
   created(){
+    this.user_loading = true
      axios.get(`/api/users/${this.user_id}`)
     .then(res =>{
      this.user_data = res.data.user
+     this.user_loading = false
     })
     .catch(err => {
      console.log(err)

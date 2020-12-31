@@ -2576,18 +2576,22 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
       user_id: this.$route.params.id,
-      user_data: null
+      user_data: null,
+      user_loading: false
     };
   },
   created: function created() {
     var _this = this;
 
+    this.user_loading = true;
     axios.get("/api/users/".concat(this.user_id)).then(function (res) {
       _this.user_data = res.data.user;
+      _this.user_loading = false;
     })["catch"](function (err) {
       console.log(err);
     });
@@ -2823,6 +2827,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -2830,15 +2835,18 @@ __webpack_require__.r(__webpack_exports__);
       searching: false,
       users: '',
       following_users: [],
+      loading: false,
       user_id: this.$store.state.user.data.id
     };
   },
   created: function created() {
     var _this = this;
 
-    //fetching loggedin user data
+    this.loading = true; //fetching loggedin user data
+
     axios.get('/api/users').then(function (res) {
       _this.users = res.data;
+      _this.loading = false;
     })["catch"](function (err) {
       console.log(err);
     }); //fetching following user details
@@ -54638,82 +54646,93 @@ var render = function() {
         "b-row",
         { staticStyle: { "padding-top": "4%" } },
         [
-          _c("b-col", { attrs: { align: "center" } }, [
-            _c(
-              "div",
-              { staticClass: "mt-4" },
-              [
-                _c(
-                  "b-card",
-                  {
-                    staticClass: "overflow-hidden",
-                    staticStyle: { "max-width": "540px" },
-                    attrs: { "no-body": "" }
-                  },
-                  [
-                    _c(
-                      "b-row",
-                      { attrs: { "no-gutters": "" } },
-                      [
-                        _c(
-                          "b-col",
-                          { attrs: { md: "6" } },
-                          [
-                            _c("b-card-img", {
-                              staticClass: "rounded-0",
-                              attrs: {
-                                src: _vm.user_data.profile_image,
-                                alt: "Image"
-                              }
-                            })
-                          ],
-                          1
-                        ),
-                        _vm._v(" "),
-                        _c(
-                          "b-col",
-                          { attrs: { md: "6" } },
-                          [
-                            _c(
-                              "b-card-body",
-                              { attrs: { title: _vm.user_data.name } },
-                              [
-                                _c("b-card-text", [
-                                  _c("p", {
-                                    domProps: {
-                                      innerHTML: _vm._s(
-                                        _vm.user_data.description
+          _c(
+            "b-col",
+            { attrs: { align: "center" } },
+            [
+              _vm.user_loading
+                ? _c("b-spinner", {
+                    attrs: { variant: "primary", label: "Spinning" }
+                  })
+                : _vm._e(),
+              _vm._v(" "),
+              _c(
+                "div",
+                { staticClass: "mt-4" },
+                [
+                  _c(
+                    "b-card",
+                    {
+                      staticClass: "overflow-hidden",
+                      staticStyle: { "max-width": "540px" },
+                      attrs: { "no-body": "" }
+                    },
+                    [
+                      _c(
+                        "b-row",
+                        { attrs: { "no-gutters": "" } },
+                        [
+                          _c(
+                            "b-col",
+                            { attrs: { md: "6" } },
+                            [
+                              _c("b-card-img", {
+                                staticClass: "rounded-0",
+                                attrs: {
+                                  src: _vm.user_data.profile_image,
+                                  alt: "Image"
+                                }
+                              })
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "b-col",
+                            { attrs: { md: "6" } },
+                            [
+                              _c(
+                                "b-card-body",
+                                { attrs: { title: _vm.user_data.name } },
+                                [
+                                  _c("b-card-text", [
+                                    _c("p", {
+                                      domProps: {
+                                        innerHTML: _vm._s(
+                                          _vm.user_data.description
+                                        )
+                                      }
+                                    }),
+                                    _vm._v(" "),
+                                    _c("hr"),
+                                    _vm._v(" "),
+                                    _c("h5", [
+                                      _vm._v(
+                                        "Following: " +
+                                          _vm._s(_vm.user_data.following) +
+                                          "  Followers: " +
+                                          _vm._s(_vm.user_data.followers)
                                       )
-                                    }
-                                  }),
-                                  _vm._v(" "),
-                                  _c("hr"),
-                                  _vm._v(" "),
-                                  _c("h5", [
-                                    _vm._v(
-                                      "Following: " +
-                                        _vm._s(_vm.user_data.following) +
-                                        "  Followers: " +
-                                        _vm._s(_vm.user_data.followers)
-                                    )
+                                    ])
                                   ])
-                                ])
-                              ],
-                              1
-                            )
-                          ],
-                          1
-                        )
-                      ],
-                      1
-                    )
-                  ],
-                  1
-                )
-              ],
-              1
-            )
-          ])
+                                ],
+                                1
+                              )
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          )
         ],
         1
       )
@@ -55067,6 +55086,12 @@ var render = function() {
             "b-col",
             { attrs: { sm: "8", align: "center" } },
             [
+              _vm.loading
+                ? _c("b-spinner", {
+                    attrs: { variant: "primary", label: "Spinning" }
+                  })
+                : _vm._e(),
+              _vm._v(" "),
               _c(
                 "b-list-group",
                 _vm._l(_vm.filterUsersByCategory, function(user) {

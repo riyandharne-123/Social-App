@@ -13,6 +13,7 @@
   </b-row>
   <b-row style="padding-top:3%;" class="justify-content-md-center">
     <b-col sm="8" align="center">
+      <b-spinner variant="primary" label="Spinning" v-if="loading"></b-spinner>
     <b-list-group>
       <b-list-group-item class="d-flex align-items-center" v-for="user in filterUsersByCategory" :key="user.id">
         <b-avatar variant="light" :src="user.profile_image" class="mr-3"></b-avatar>
@@ -42,14 +43,17 @@ export default {
         searching:false,
         users:'',
         following_users:[],
+        loading:false,
         user_id:this.$store.state.user.data.id,
       }
     },
    created: function() {
+     this.loading = true
     //fetching loggedin user data
     axios.get('/api/users')
     .then(res => {
     this.users= res.data;
+    this.loading = false
     })
     .catch(err => {
      console.log(err)
