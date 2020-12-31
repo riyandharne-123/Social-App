@@ -75,7 +75,7 @@ export default {
        },
        following(user_email,user_profile_image,user_name,user_id)
        {
-         axios.post('http://enigmatic-eyrie-12522.herokuapp.com/api/following',{
+         axios.post('/api/following',{
            user_id:user_id,
            email: user_email,
            name:user_name,
@@ -94,7 +94,7 @@ export default {
          })
        },
        unfollowing(user_email,user_name){
-           axios.post(`http://enigmatic-eyrie-12522.herokuapp.com/api/unfollow`,{
+           axios.post(`/api/unfollow`,{
            user_id:this.user_id,
            email: user_email,
            name:user_name,

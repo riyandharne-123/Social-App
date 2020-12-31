@@ -2865,7 +2865,7 @@ __webpack_require__.r(__webpack_exports__);
     following: function following(user_email, user_profile_image, user_name, user_id) {
       var _this2 = this;
 
-      axios.post('http://enigmatic-eyrie-12522.herokuapp.com/api/following', {
+      axios.post('/api/following', {
         user_id: user_id,
         email: user_email,
         name: user_name,
@@ -2887,7 +2887,7 @@ __webpack_require__.r(__webpack_exports__);
     unfollowing: function unfollowing(user_email, user_name) {
       var _this3 = this;
 
-      axios.post("http://enigmatic-eyrie-12522.herokuapp.com/api/unfollow", {
+      axios.post("/api/unfollow", {
         user_id: this.user_id,
         email: user_email,
         name: user_name
