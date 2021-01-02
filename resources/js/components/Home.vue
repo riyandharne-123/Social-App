@@ -64,6 +64,8 @@
         <h5>
         <b-icon icon="heart-fill" variant="danger" @click="removelike(post.id)"></b-icon>
         {{post.likes}} likes
+        <b-icon icon="chat"></b-icon>
+        {{post.comment_count}} Comments
         </h5>
         </div>
 
@@ -71,9 +73,37 @@
         <h5>
         <b-icon icon="heart" @click="like(post.id)"></b-icon>
         {{post.likes}} likes
+        <b-icon icon="chat"></b-icon>
+        {{post.comment_count}} Comments
         </h5>
         </div>
 
+           <b-row>
+            <b-col cols="12">
+                <b-input-group>
+                <b-form-input v-model="post_comment" placeholder="Add a comment"></b-form-input>
+                <b-input-group-append>
+                <b-button squared variant="primary" @click="comment(post.id)"><strong>Comment</strong></b-button>
+                </b-input-group-append>
+              </b-input-group>
+            </b-col>
+           </b-row>
+           <hr>
+            <b-row>
+               <b-col cols="12" style="overflow-y: scroll; height:30vh;" v-if="post.post_comments != ''">
+                <b-list-group v-for="comment in JSON.parse(post.post_comments)" :key="comment.comment">
+                <b-list-group-item>
+                <b-avatar variant="success" :src="comment.image" icon="people-fill" class="mr-3"></b-avatar>
+                  <router-link :to='"/app/user/"+comment.user_id'>
+                  View Profile
+                  </router-link>
+                <span class="mr-auto"><h5>{{comment.name}}</h5> {{comment.created_at}}</span>
+                <hr>
+                <strong>{{comment.comment}}</strong>
+                </b-list-group-item>
+               </b-list-group>
+             </b-col>
+           </b-row>
         </b-card-text>
       </b-card>
     <br>
@@ -92,6 +122,7 @@
      posts:[],
      user_id:null,
      loading: false,
+     post_comment:'',
     }
    },
    created:function(){
@@ -118,6 +149,24 @@
       this.startLoading()
     },
    methods:{
+     comment(post_id){
+      axios.post('/api/comments',{
+      post_id:post_id,
+      comment:this.post_comment,
+      })
+      .then(res =>{
+      this.post_comment = ''
+      this.posts = res.data.posts;
+      this.$bvToast.toast(`Comment added!`, {
+          title: 'Message',
+          autoHideDelay: 3000,
+          appendToast: true
+        })
+      })
+    .catch(err => {
+     console.log(err)
+    })
+     },
     like(post_id){
       axios.post('/api/likes',{
       post_id:post_id

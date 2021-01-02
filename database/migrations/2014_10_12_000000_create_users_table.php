@@ -17,7 +17,7 @@ class CreateUsersTable extends Migration
             $table->id();
             $table->string('name');
             $table->string('email')->unique();
-            $table->longText('profile_image')->nullable();
+            $table->longText('profile_image');
             $table->longText('description')->nullable();
             $table->bigInteger('following')->nullable();
             $table->bigInteger('followers')->nullable();

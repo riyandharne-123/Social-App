@@ -14,6 +14,7 @@ Route::group(['middleware' => ['auth:api'], 'namespace' => 'Api'],function(){
     Route::resource('following','FollowingController');
     Route::resource('posts','PostController');
     Route::resource('likes','LikeController');
+    Route::resource('comments','CommentController');
     Route::resource('user_posts','UserPostController');
     Route::post('removelike','LikeController@delete');
     Route::post('unfollow','FollowingController@delete'); 

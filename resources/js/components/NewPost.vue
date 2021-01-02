@@ -2,7 +2,7 @@
  <b-container fluid>
  <b-row>
  <b-col cols="12">
-       <b-form @submit="post">        
+       <b-form @submit.prevent="post">        
     <b-form-group label="Picture:" >
         <b-form-file
         :state="Boolean(form.post_image)"

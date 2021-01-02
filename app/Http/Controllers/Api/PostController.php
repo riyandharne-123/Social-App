@@ -23,6 +23,7 @@ class PostController extends Controller
             'likes' => 0,
             'post_desc' => $request->post_desc,
             'post_tags' => json_encode($request->post_tags),
+            'comment_count' => 0,
            ]);
            return response()->json(['posts' => Post::orderBy('created_at', 'desc')->get()], 200);
     }

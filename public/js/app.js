@@ -2024,12 +2024,43 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
       posts: [],
       user_id: null,
-      loading: false
+      loading: false,
+      post_comment: ''
     };
   },
   created: function created() {
@@ -2055,24 +2086,43 @@ __webpack_require__.r(__webpack_exports__);
     this.startLoading();
   },
   methods: {
-    like: function like(post_id) {
+    comment: function comment(post_id) {
       var _this2 = this;
+
+      axios.post('/api/comments', {
+        post_id: post_id,
+        comment: this.post_comment
+      }).then(function (res) {
+        _this2.post_comment = '';
+        _this2.posts = res.data.posts;
+
+        _this2.$bvToast.toast("Comment added!", {
+          title: 'Message',
+          autoHideDelay: 3000,
+          appendToast: true
+        });
+      })["catch"](function (err) {
+        console.log(err);
+      });
+    },
+    like: function like(post_id) {
+      var _this3 = this;
 
       axios.post('/api/likes', {
         post_id: post_id
       }).then(function (res) {
-        _this2.posts = res.data.posts;
+        _this3.posts = res.data.posts;
       })["catch"](function (err) {
         console.log(err);
       });
     },
     removelike: function removelike(post_id) {
-      var _this3 = this;
+      var _this4 = this;
 
       axios.post('/api/removelike', {
         post_id: post_id
       }).then(function (res) {
-        _this3.posts = res.data.posts;
+        _this4.posts = res.data.posts;
       })["catch"](function (err) {
         console.log(err);
       });
@@ -53782,55 +53832,204 @@ var render = function() {
                     1
                   ),
                   _vm._v(" "),
-                  _c("b-card-text", [
-                    post.user_likes != null &&
-                    post.user_likes.indexOf("" + _vm.user_id) !== -1
-                      ? _c("div", [
+                  _c(
+                    "b-card-text",
+                    [
+                      post.user_likes != null &&
+                      post.user_likes.indexOf("" + _vm.user_id) !== -1
+                        ? _c("div", [
+                            _c(
+                              "h5",
+                              [
+                                _c("b-icon", {
+                                  attrs: {
+                                    icon: "heart-fill",
+                                    variant: "danger"
+                                  },
+                                  on: {
+                                    click: function($event) {
+                                      return _vm.removelike(post.id)
+                                    }
+                                  }
+                                }),
+                                _vm._v(
+                                  "\n       " +
+                                    _vm._s(post.likes) +
+                                    " likes\n       "
+                                ),
+                                _c("b-icon", { attrs: { icon: "chat" } }),
+                                _vm._v(
+                                  "\n       " +
+                                    _vm._s(post.comment_count) +
+                                    " Comments\n       "
+                                )
+                              ],
+                              1
+                            )
+                          ])
+                        : _c("div", [
+                            _c(
+                              "h5",
+                              [
+                                _c("b-icon", {
+                                  attrs: { icon: "heart" },
+                                  on: {
+                                    click: function($event) {
+                                      return _vm.like(post.id)
+                                    }
+                                  }
+                                }),
+                                _vm._v(
+                                  "\n       " +
+                                    _vm._s(post.likes) +
+                                    " likes\n       "
+                                ),
+                                _c("b-icon", { attrs: { icon: "chat" } }),
+                                _vm._v(
+                                  "\n       " +
+                                    _vm._s(post.comment_count) +
+                                    " Comments\n       "
+                                )
+                              ],
+                              1
+                            )
+                          ]),
+                      _vm._v(" "),
+                      _c(
+                        "b-row",
+                        [
                           _c(
-                            "h5",
+                            "b-col",
+                            { attrs: { cols: "12" } },
                             [
-                              _c("b-icon", {
-                                attrs: {
-                                  icon: "heart-fill",
-                                  variant: "danger"
+                              _c(
+                                "b-input-group",
+                                [
+                                  _c("b-form-input", {
+                                    attrs: { placeholder: "Add a comment" },
+                                    model: {
+                                      value: _vm.post_comment,
+                                      callback: function($$v) {
+                                        _vm.post_comment = $$v
+                                      },
+                                      expression: "post_comment"
+                                    }
+                                  }),
+                                  _vm._v(" "),
+                                  _c(
+                                    "b-input-group-append",
+                                    [
+                                      _c(
+                                        "b-button",
+                                        {
+                                          attrs: {
+                                            squared: "",
+                                            variant: "primary"
+                                          },
+                                          on: {
+                                            click: function($event) {
+                                              return _vm.comment(post.id)
+                                            }
+                                          }
+                                        },
+                                        [_c("strong", [_vm._v("Comment")])]
+                                      )
+                                    ],
+                                    1
+                                  )
+                                ],
+                                1
+                              )
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c("hr"),
+                      _vm._v(" "),
+                      _c(
+                        "b-row",
+                        [
+                          post.post_comments != ""
+                            ? _c(
+                                "b-col",
+                                {
+                                  staticStyle: {
+                                    "overflow-y": "scroll",
+                                    height: "30vh"
+                                  },
+                                  attrs: { cols: "12" }
                                 },
-                                on: {
-                                  click: function($event) {
-                                    return _vm.removelike(post.id)
-                                  }
-                                }
-                              }),
-                              _vm._v(
-                                "\n       " +
-                                  _vm._s(post.likes) +
-                                  " likes\n       "
+                                _vm._l(JSON.parse(post.post_comments), function(
+                                  comment
+                                ) {
+                                  return _c(
+                                    "b-list-group",
+                                    { key: comment.comment },
+                                    [
+                                      _c(
+                                        "b-list-group-item",
+                                        [
+                                          _c("b-avatar", {
+                                            staticClass: "mr-3",
+                                            attrs: {
+                                              variant: "success",
+                                              src: comment.image,
+                                              icon: "people-fill"
+                                            }
+                                          }),
+                                          _vm._v(" "),
+                                          _c(
+                                            "router-link",
+                                            {
+                                              attrs: {
+                                                to:
+                                                  "/app/user/" + comment.user_id
+                                              }
+                                            },
+                                            [
+                                              _vm._v(
+                                                "\n                 View Profile\n                 "
+                                              )
+                                            ]
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "span",
+                                            { staticClass: "mr-auto" },
+                                            [
+                                              _c("h5", [
+                                                _vm._v(_vm._s(comment.name))
+                                              ]),
+                                              _vm._v(
+                                                " " + _vm._s(comment.created_at)
+                                              )
+                                            ]
+                                          ),
+                                          _vm._v(" "),
+                                          _c("hr"),
+                                          _vm._v(" "),
+                                          _c("strong", [
+                                            _vm._v(_vm._s(comment.comment))
+                                          ])
+                                        ],
+                                        1
+                                      )
+                                    ],
+                                    1
+                                  )
+                                }),
+                                1
                               )
-                            ],
-                            1
-                          )
-                        ])
-                      : _c("div", [
-                          _c(
-                            "h5",
-                            [
-                              _c("b-icon", {
-                                attrs: { icon: "heart" },
-                                on: {
-                                  click: function($event) {
-                                    return _vm.like(post.id)
-                                  }
-                                }
-                              }),
-                              _vm._v(
-                                "\n       " +
-                                  _vm._s(post.likes) +
-                                  " likes\n       "
-                              )
-                            ],
-                            1
-                          )
-                        ])
-                  ])
+                            : _vm._e()
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  )
                 ],
                 1
               ),
@@ -54202,7 +54401,14 @@ var render = function() {
             [
               _c(
                 "b-form",
-                { on: { submit: _vm.post } },
+                {
+                  on: {
+                    submit: function($event) {
+                      $event.preventDefault()
+                      return _vm.post($event)
+                    }
+                  }
+                },
                 [
                   _c(
                     "b-form-group",
